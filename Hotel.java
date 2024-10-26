@@ -194,11 +194,18 @@ public class Hotel {
             }
         }
     }
-    public void calcularSalarioFuncionarios() {
-        System.out.println("\nSalários dos Funcionários:");
+    public static void calcularSalario(Funcionario funcionario, double taxaAumento) {
+        double salarioAtual = funcionario.getSalario();
+        double novoSalario = salarioAtual + (salarioAtual * taxaAumento);
+        funcionario.setSalario(novoSalario); 
+    }
+    public Funcionario buscarFuncionarioPorNome(String nome) {
         for (Funcionario funcionario : funcionarios) {
-            System.out.printf("Funcionário: %s | Salário: R$ %.2f\n", funcionario.getNome(), funcionario.getSalario());
+            if (funcionario.getNome().equalsIgnoreCase(nome)) {
+                return funcionario;
+            }
         }
+        return null; 
     }
 
     // Editar informações de um funcionário

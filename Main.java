@@ -65,6 +65,7 @@ public class Main {
                     Quarto quarto = new Quarto (numero, tipo, capacidade, preco);
                     hotel.cadastrarQuarto(quarto);
                     break;
+                    
 
                 case 2: // Cadastrar Hóspede
                     System.out.print("\nDigite o nome do hóspede: ");
@@ -244,6 +245,11 @@ public class Main {
                     if (!novoNomeFuncionario.isEmpty()) {
                         funcionarioEditado.setNome(novoNomeFuncionario);
                     }
+                    System.out.print("\nDigite o novo cargo do funcionário (ou pressione Enter para manter): ");
+                    String novoCargoFuncionario = scanner.nextLine();
+                    if (!novoCargoFuncionario.isEmpty()) {
+                        funcionarioEditado.setNome(novoCargoFuncionario);
+                    }
 
                     System.out.print("\nDigite o novo salário do funcionário (ou pressione Enter para manter): ");
                     String novoSalarioInput = scanner.nextLine();
@@ -252,7 +258,7 @@ public class Main {
                         funcionarioEditado.setSalario(novoSalarioFuncionario);
                     }
 
-                    // Adicione outros campos que deseja editar
+                    
 
                     System.out.println("\nInformações do funcionário atualizadas com sucesso!");
                     break;
@@ -270,16 +276,20 @@ public class Main {
                     break;
 
                 case 13: // Calcular Salário dos Funcionários
-                    System.out.print("\nDigite o CPF do funcionário para calcular o salário: ");
-                    String cpfFuncionarioSalario = scanner.nextLine();
-                    Funcionario funcionarioSalario = hotel.buscarFuncionarioPorCpf(cpfFuncionarioSalario);
-                    if (funcionarioSalario == null) {
-                        System.out.println("\nFuncionário não encontrado.");
-                        break;
-                    }
+                	System.out.print("\nDigite o nome do funcionário para calcular o salário: ");
+                    String nomeFuncionario1 = scanner.nextLine();
+                    Funcionario funcionarioParaCalcular = hotel.buscarFuncionarioPorNome(nomeFuncionario1);
 
-                    double salarioFuncionario1 = funcionarioSalario.calcularSalario();
-                    System.out.printf("\nSalário do funcionário %s: R$ %.2f\n", funcionarioSalario.getNome(), salarioFuncionario1);
+                    if (funcionarioParaCalcular != null) {
+                        System.out.print("\nDigite a taxa de aumento (em porcentagem): ");
+                        double taxaAumento = scanner.nextDouble() / 100; 
+                        scanner.nextLine(); 
+
+                        calcularSalario(funcionarioParaCalcular, taxaAumento);
+                        System.out.println("\nSalário atualizado do funcionário: R$ " + String.format("%.2f", funcionarioParaCalcular.getSalario()));
+                    } else {
+                        System.out.println("\nFuncionário não encontrado.");
+                    }
                     break;
 
                 case 14: // Criar Reserva
@@ -329,4 +339,9 @@ public class Main {
 
     scanner.close();
 }
+
+	private static void calcularSalario(Funcionario funcionarioParaCalcular, double taxaAumento) {
+		// TODO Auto-generated method stub
+		
+	}
 }
