@@ -13,12 +13,12 @@ public class Main {
             System.out.println("Segue as nossas opções:\n");
             System.out.println("1  = Cadastrar Quarto");
             System.out.println("2  = Cadastrar Hóspede");
-            System.out.println("3  = Realizar Check-in");
-            System.out.println("4  = Realizar Check-out");
-            System.out.println("5  = Listar Quartos Disponíveis");
-            System.out.println("6  = Listar Quartos Ocupados");
-            System.out.println("7  = Listar Hóspedes Cadastrados");
-            System.out.println("8  = Cadastrar Funcionários");
+            System.out.println("3  = Cadastrar Funcionário"); 
+            System.out.println("4  = Realizar Check-in");
+            System.out.println("5  = Realizar Check-out");
+            System.out.println("6  = Listar Quartos Disponíveis");
+            System.out.println("7  = Listar Quartos Ocupados");
+            System.out.println("8  = Listar Hóspedes Cadastrados");
             System.out.println("9  = Listar Funcionários");
             System.out.println("10 = Editar informações dos hóspedes");
             System.out.println("11 = Editar Informações dos Funcionários");
@@ -65,6 +65,7 @@ public class Main {
                     Quarto quarto = new Quarto (numero, tipo, capacidade, preco);
                     hotel.cadastrarQuarto(quarto);
                     break;
+                    
 
                 case 2: // Cadastrar Hóspede
                     System.out.print("\nDigite o nome do hóspede: ");
@@ -106,56 +107,8 @@ public class Main {
                     hotel.cadastrarHospede(hospede);
                    System.out.println("\nHóspede cadastrado com Sucesso!");
                     break;
-
-                case 3: // Realizar Check-in
-                    System.out.print("\nDigite o número do quarto para check-in: ");
-                    String InputnumeroQuartoCheckIn = scanner.nextLine();
-                    if (InputnumeroQuartoCheckIn.equals("")) {
-                        System.out.println("\nImpossível realizar Check-in! Número do quarto não informado.");
-                        break;
-                    }
-
-                    int numeroQuartoCheckIn = Integer.parseInt(InputnumeroQuartoCheckIn);
-
-                    System.out.print("\nDigite o CPF do hóspede: ");
-                    String cpfHospedeCheckIn = scanner.nextLine();
-                    if (cpfHospedeCheckIn.equals("")) {
-                        System.out.println("\nImpossível realizar Check-in! CPF do Hóspede não informado.");
-                        break;
-                    }
-
-                    hotel.realizarCheckIn(numeroQuartoCheckIn, cpfHospedeCheckIn, null, null);
-                    break;
-
-                case 4: // Realizar Check-out
-                    System.out.print("\nDigite o número do quarto para check-out: ");
-                    String InputnumeroQuartoCheckOut = scanner.nextLine();
-                    if (InputnumeroQuartoCheckOut.equals("")) {
-                        System.out.println("\nImpossível realizar Check-out! Número do quarto não informado.");
-                        break;
-                    }
-
-                    int numeroQuartoCheckOut = Integer.parseInt(InputnumeroQuartoCheckOut);
-
-                    hotel.realizarCheckOut(numeroQuartoCheckOut);
-                    break;
-
-                case 5: // Listar Quartos Disponíveis
-                    System.out.println("\nListando quartos disponíveis:");
-                    hotel.listarQuartosDisponiveis();
-                    break;
-
-                case 6: // Listar Quartos Ocupados
-                    System.out.println("\nListando quartos ocupados:");
-                    hotel.listarQuartosOcupados();
-                    break;
-
-                case 7: // Listar Hóspedes Cadastrados
-                    System.out.println("\nListando hóspedes cadastrados:");
-                    hotel.listarHospedes();
-                    break;
                     
-                case 8: // Cadastrar Funcionários
+                case 3: // Cadastrar Funcionários
                     System.out.print("\nDigite o nome do funcionário: ");
                     String nomeFuncionario = scanner.nextLine();
                     if (nomeFuncionario.equals("")) {
@@ -191,12 +144,68 @@ public class Main {
                     Funcionario funcionario = new Funcionario(nomeFuncionario, cpfFuncionario, cargoFuncionario, salarioFuncionario);
                     hotel.cadastrarFuncionario(funcionario);
                     break;
+
+                case 4: // Realizar Check-in
+                    System.out.print("\nDigite o número do quarto para check-in: ");
+                    String InputnumeroQuartoCheckIn = scanner.nextLine();
+                    if (InputnumeroQuartoCheckIn.equals("")) {
+                        System.out.println("\nImpossível realizar Check-in! Número do quarto não informado.");
+                        break;
+                    }
+
+                    int numeroQuartoCheckIn = Integer.parseInt(InputnumeroQuartoCheckIn);
+
+                    System.out.print("\nDigite o CPF do hóspede: ");
+                    String cpfHospedeCheckIn = scanner.nextLine();
+                    if (cpfHospedeCheckIn.equals("")) {
+                        System.out.println("\nImpossível realizar Check-in! CPF do Hóspede não informado.");
+                        break;
+                    }
+
+                    hotel.realizarCheckIn(numeroQuartoCheckIn, cpfHospedeCheckIn, null, null);
+                    break;
+
+                case 5: // Realizar Check-out
+                    System.out.print("\nDigite o número do quarto para check-out: ");
+                    String InputnumeroQuartoCheckOut = scanner.nextLine();
+                    if (InputnumeroQuartoCheckOut.equals("")) {
+                        System.out.println("\nImpossível realizar Check-out! Número do quarto não informado.");
+                        break;
+                    }
+
+                    int numeroQuartoCheckOut = Integer.parseInt(InputnumeroQuartoCheckOut);
+
+                    hotel.realizarCheckOut(numeroQuartoCheckOut);
+                    break;
+
+                case 6: // Listar Quartos Disponíveis
+                    System.out.println("\nListando quartos disponíveis:");
+                    hotel.listarQuartosDisponiveis();
+                    break;
+
+                case 7: // Listar Quartos Ocupados
+                    System.out.println("\nListando quartos ocupados:");
+                    hotel.listarQuartosOcupados();
+                    break;
+
+                case 8: // Listar Hóspedes Cadastrados
+                    System.out.println("\nListando hóspedes cadastrados:");
+                    hotel.listarHospedes();
+                    break;
+                    
                     
                 case 9: // Listar Funcionários
                     hotel.listarFuncionarios();
                     break;
                 
                 case 10: 
+                	if (hotel.hospedes.isEmpty()) {
+                		System.out.println("\nNenhum Hóspede Cadastrado no Sistema!");
+                	    break;
+                	}
+                	System.out.println("\nHóspedes cadastrados no Sistema:\n");
+                	hotel.listarHospedes();
+                	
                 	System.out.print("\nDigite o CPF do hóspede que deseja editar: ");
                     String cpfParaEditar = scanner.nextLine();
                     Hospede hospedeParaEditar = hotel.buscarHospedePorCpf(cpfParaEditar);
@@ -231,6 +240,12 @@ public class Main {
                     break;
                     
                 case 11: // Editar Informações dos Funcionários
+                	if (hotel.funcionarios.isEmpty()) {
+                		System.out.println("\nNenhum Funcionário Cadastrado no Sistema!");
+                	    break;
+                	}
+                	System.out.println("\nFuncionários cadastrados no sistema:\n");
+                	hotel.listarFuncionarios();
                     System.out.print("\nDigite o CPF do funcionário a ser editado: ");
                     String cpfFuncionarioEditado = scanner.nextLine();
                     Funcionario funcionarioEditado = hotel.buscarFuncionarioPorCpf(cpfFuncionarioEditado);
@@ -244,6 +259,11 @@ public class Main {
                     if (!novoNomeFuncionario.isEmpty()) {
                         funcionarioEditado.setNome(novoNomeFuncionario);
                     }
+                    System.out.print("\nDigite o novo cargo do funcionário (ou pressione Enter para manter): ");
+                    String novoCargoFuncionario = scanner.nextLine();
+                    if (!novoCargoFuncionario.isEmpty()) {
+                        funcionarioEditado.setCargo(novoCargoFuncionario);
+                    }
 
                     System.out.print("\nDigite o novo salário do funcionário (ou pressione Enter para manter): ");
                     String novoSalarioInput = scanner.nextLine();
@@ -252,7 +272,7 @@ public class Main {
                         funcionarioEditado.setSalario(novoSalarioFuncionario);
                     }
 
-                    // Adicione outros campos que deseja editar
+                    
 
                     System.out.println("\nInformações do funcionário atualizadas com sucesso!");
                     break;
@@ -270,16 +290,20 @@ public class Main {
                     break;
 
                 case 13: // Calcular Salário dos Funcionários
-                    System.out.print("\nDigite o CPF do funcionário para calcular o salário: ");
-                    String cpfFuncionarioSalario = scanner.nextLine();
-                    Funcionario funcionarioSalario = hotel.buscarFuncionarioPorCpf(cpfFuncionarioSalario);
-                    if (funcionarioSalario == null) {
-                        System.out.println("\nFuncionário não encontrado.");
-                        break;
-                    }
+                	System.out.print("\nDigite o nome do funcionário para calcular o salário: ");
+                    String nomeFuncionario1 = scanner.nextLine();
+                    Funcionario funcionarioParaCalcular = hotel.buscarFuncionarioPorNome(nomeFuncionario1);
 
-                    double salarioFuncionario1 = funcionarioSalario.calcularSalario();
-                    System.out.printf("\nSalário do funcionário %s: R$ %.2f\n", funcionarioSalario.getNome(), salarioFuncionario1);
+                    if (funcionarioParaCalcular != null) {
+                        System.out.print("\nDigite a taxa de aumento (em porcentagem): ");
+                        double taxaAumento = scanner.nextDouble() / 100; 
+                        scanner.nextLine(); 
+
+                        calcularSalario(funcionarioParaCalcular, taxaAumento);
+                        System.out.println("\nSalário atualizado do funcionário: R$ " + String.format("%.2f", funcionarioParaCalcular.getSalario()));
+                    } else {
+                        System.out.println("\nFuncionário não encontrado.");
+                    }
                     break;
 
                 case 14: // Criar Reserva
@@ -329,4 +353,9 @@ public class Main {
 
     scanner.close();
 }
+
+	private static void calcularSalario(Funcionario funcionarioParaCalcular, double taxaAumento) {
+		// TODO Auto-generated method stub
+		
+	}
 }
