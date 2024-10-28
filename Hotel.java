@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Hotel {
     private List<Quarto> quartos;
-    private List<Hospede> hospedes;
-    private List<Funcionario> funcionarios;
+    public List<Hospede> hospedes;
+    public List<Funcionario> funcionarios;
     private List<Reserva> reservas;
     private List<Estadia> estadias;
 
@@ -44,20 +44,38 @@ public class Hotel {
         }
     }
     public void listarQuartosOcupados() {
-    	boolean temQuartoOcupado = false; 
-    	if (!temQuartoOcupado) {
-            System.out.println("\nNenhum quarto ocupado no momento.");
-            return;
-        }
-        System.out.println("\nListando quartos ocupados:");
-        
+        boolean temOcupados = false;
+
+        System.out.println("\nQuartos ocupados:");
         for (Quarto quarto : quartos) {
-            if (!quarto.isDisponivel()) {  
-                System.out.println(quarto);
-                temQuartoOcupado = true; 
+            if (quarto.isOcupado()) {  
+                System.out.println("Quarto " + quarto.getNumero() + " está Ocupado.");
+                temOcupados = true;
             }
         }
-        
+
+        if (!temOcupados) {
+            System.out.println("\nNenhum quarto está ocupado no momento.");
+        }
+    }
+    public boolean temQuartosOcupados() {
+        for (Quarto quarto : quartos) {
+            if (!quarto.isDisponivel()) { 
+                return true; 
+            }
+        }
+        return false; 
+    }
+    public boolean temQuartosDisponiveis() {
+        for (Quarto quarto : quartos) {
+            if (quarto.isDisponivel()) { 
+                return true; 
+            }
+        }
+        return false; 
+    }
+    public boolean temHospedesCadastrados() {
+        return !hospedes.isEmpty(); 
     }
     public void listarHospedesCadastrados() {
         System.out.println("\nListando hóspedes cadastrados:");
@@ -89,10 +107,10 @@ public class Hotel {
     public void atualizarStatusQuarto(int numero, String status) throws DadosInvalidosException {
         Quarto quarto = buscarQuartoPorNumero(numero);
         if (quarto == null) {
-            throw new DadosInvalidosException("Quarto não encontrado.");
+            throw new DadosInvalidosException("\nQuarto não encontrado.");
         }
         quarto.atualizarStatus(status);
-        System.out.println("Status do quarto atualizado para: " + status);
+        System.out.println("\nStatus do quarto atualizado para: " + status);
     }
 
     Quarto buscarQuartoPorNumero(int numero) {
@@ -112,7 +130,7 @@ public class Hotel {
     }
     public void listarHospedes() {
         if (hospedes.isEmpty()) {
-            System.out.println("\nNenhum hóspede cadastrado.");
+            System.out.println("\nNão existem hóspedes cadastrados.");
             return;
         }
         System.out.println("\nListando Hóspedes:");
@@ -131,7 +149,7 @@ public class Hotel {
     public void listarHistoricoHospede(String cpf) throws DadosInvalidosException {
         Hospede hospede = buscarHospedePorCpf(cpf);
         if (hospede == null) {
-            throw new DadosInvalidosException("Hóspede não encontrado.");
+            throw new DadosInvalidosException("\nHóspede não encontrado.");
         }
         hospede.listar();
     }
@@ -140,7 +158,7 @@ public class Hotel {
     public void editarHospede(String cpf, String novoEndereco, String novoNumeroContato) throws DadosInvalidosException {
         Hospede hospede = buscarHospedePorCpf(cpf);
         if (hospede == null) {
-            throw new DadosInvalidosException("Hóspede não encontrado.");
+            throw new DadosInvalidosException("\nHóspede não encontrado.");
         }
         hospede.editarHospede(novoEndereco, novoNumeroContato);
     }
@@ -161,6 +179,7 @@ public class Hotel {
             System.out.println("\nInformações do hóspede atualizadas com sucesso!");
         } else {
             System.out.println("\nHóspede não encontrado.");
+            
         }
     }
 
@@ -182,30 +201,38 @@ public class Hotel {
             System.out.println("\nInformações do funcionário atualizadas com sucesso!");
         } else {
             System.out.println("\nFuncionário não encontrado.");
+           
         }
     }
     public void listarHistoricoEstadias() {
         System.out.println("\nHistórico de Estadias:");
         if (estadias.isEmpty()) {
-            System.out.println("Nenhuma estadia registrada.");
+            System.out.println("\nNenhuma estadia registrada.");
         } else {
             for (Estadia estadia : estadias) {
                 System.out.println(estadia);
             }
         }
     }
-    public void calcularSalarioFuncionarios() {
-        System.out.println("\nSalários dos Funcionários:");
+    public static void calcularSalario(Funcionario funcionario, double taxaAumento) {
+        double salarioAtual = funcionario.getSalario();
+        double novoSalario = salarioAtual + (salarioAtual * taxaAumento);
+        funcionario.setSalario(novoSalario); 
+    }
+    public Funcionario buscarFuncionarioPorNome(String nome) {
         for (Funcionario funcionario : funcionarios) {
-            System.out.printf("Funcionário: %s | Salário: R$ %.2f\n", funcionario.getNome(), funcionario.getSalario());
+            if (funcionario.getNome().equalsIgnoreCase(nome)) {
+                return funcionario;
+            }
         }
+        return null; 
     }
 
     // Editar informações de um funcionário
     public void editarFuncionario(String cpf, String novoCargo, double novoSalario) throws DadosInvalidosException {
         Funcionario funcionario = buscarFuncionarioPorCpf(cpf);
         if (funcionario == null) {
-            throw new DadosInvalidosException("Funcionário não encontrado.");
+            throw new DadosInvalidosException("\nFuncionário não encontrado.");
         }
         funcionario.editarFuncionario(novoCargo, novoSalario);
     }
@@ -235,23 +262,20 @@ public class Hotel {
     // 4. Gerenciamento de Reservas
 
     // Criar reserva
-    public void criarReserva(Hospede hospede, Quarto quarto, String dataEntrada, String dataSaida) throws DadosInvalidosException {
-        // Verifica se o quarto está ocupado
-        if (!quarto.isDisponivel()) { // Mudado para isDisponivel()
-            throw new DadosInvalidosException("Quarto indisponível.");
+    public void criarReserva(Hospede hospede, Quarto quarto, LocalDate dataEntradaReserva, LocalDate dataSaidaReserva) throws DadosInvalidosException {
+        
+        if (!quarto.isDisponivel()) { 
+            throw new DadosInvalidosException("\nQuarto indisponível.");
         }
         
         // Cria uma nova reserva
-        Reserva reserva = new Reserva(hospede, quarto, dataEntrada, dataSaida);
-        reservas.add(reserva); // Adiciona a reserva à lista de reservas
+        Reserva reserva = new Reserva(hospede, quarto, dataEntradaReserva, dataSaidaReserva);
+        reservas.add(reserva); 
         
-        // Atualiza o status do quarto para ocupado
-        quarto.setOcupado(true); // Mudado para setOcupado(true)
         
-        // Adiciona a reserva ao hóspede
+        quarto.setOcupado(true); 
         hospede.adicionarReserva(reserva);
         
-        // Mensagem de sucesso
         System.out.println("\nReserva criada com sucesso!");
     }
 
@@ -282,22 +306,26 @@ public class Hotel {
         Hospede hospede = buscarHospedePorCpf(cpfHospede);
 
         if (quarto != null && hospede != null && quarto.isDisponivel()) {
-            // Cria a nova estadia e adiciona à lista
+            
             Estadia novaEstadia = new Estadia(hospede, quarto, dataEntrada, dataSaida);
             estadias.add(novaEstadia);
 
-            // Marque o quarto como ocupado
+            quarto.setDisponivel(false);
             quarto.setOcupado(true);
-            System.out.println("Check-in realizado com sucesso para " + hospede.getNome());
+            
+            System.out.println("\nCheck-in realizado com sucesso para " + hospede.getNome());
         } else {
-            System.out.println("Check-in não pode ser realizado. Quarto ou hóspede não encontrado ou quarto já ocupado.");
+            System.out.println("\nCheck-in não pode ser realizado. Quarto ou hóspede não encontrado ou quarto já ocupado.");
         }
     }
 
     public void realizarCheckOut(int numeroQuarto) {
         Quarto quarto = buscarQuartoPorNumero(numeroQuarto);
+        
         if (quarto != null && !quarto.isDisponivel()) {
-            quarto.setDisponivel(true); 
+            quarto.setDisponivel(true);
+            quarto.setOcupado(false);
+            
             System.out.println("\nCheck-out realizado com sucesso!");
         } else {
             System.out.println("\nQuarto não está ocupado.");

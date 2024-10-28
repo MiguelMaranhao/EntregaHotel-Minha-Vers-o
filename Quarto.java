@@ -2,22 +2,22 @@ package HotelMV;
 
 public class Quarto {
     private int numero;
-    private String tipo; // Pode ser "solteiro", "casal" ou "suíte"
+    private String tipo; 
     private int capacidade;
     private double preco;
-    private boolean disponivel; // True se o quarto está disponível, false se ocupado
+    private boolean disponivel; 
     private boolean ocupado;
-    // Construtor
+    
     public Quarto(int numero, String tipo, int capacidade, double preco) {
         this.numero = numero;
         this.tipo = tipo;
         this.capacidade = capacidade;
         this.preco = preco;
-        this.disponivel = true; // Por padrão, o quarto é criado como disponível
+        this.disponivel = true; 
         this.ocupado = false;
     }
 
-    // Métodos de acesso (getters e setters)
+    
     public int getNumero() {
         return numero;
     }
@@ -38,7 +38,7 @@ public class Quarto {
         return disponivel;
     }
     public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel; // Atualiza o status de disponibilidade do quarto
+        this.disponivel = disponivel; 
     }
 
 
@@ -64,7 +64,8 @@ public class Quarto {
 
     @Override
     public String toString() {
-        return "\nQuarto: " + numero + "\nTipo: " + tipo + " \nCapacidade: " + capacidade + " \nPreço: R$ " + preco + " \nStatus: " + disponivel + "";
+    	String status = disponivel ? "disponível" : "ocupado";
+        return "\nQuarto: " + numero + "\nTipo: " + tipo + " \nCapacidade: " + capacidade + " \nPreço: R$ " + preco + " \nStatus: " + status + "";
     }
 
 	
